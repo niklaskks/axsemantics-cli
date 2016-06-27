@@ -82,10 +82,19 @@ def cp_get_things(obj):
             obj['things'] = things
 
 
-@cp_get_things.command('show')
+@cp_get_things.command('list')
 @click.pass_obj
 def things_list(obj):
     if 'things' in obj:
         things = obj['things']
         for thing in things:
             print('{}: {}'.format(thing['id'], thing['name']))
+
+
+@cp_get_things.command('show')
+@click.argument('id')
+@click.pass_obj
+def things_show(obj, id):
+    if 'content-project-id' in obj:
+        thing = axsemantics.Thing.retrieve(id=id, cp_id=obj['content-project-id'])
+        print(thing)
