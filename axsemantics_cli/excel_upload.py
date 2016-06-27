@@ -137,7 +137,7 @@ def importer(obj):
                 cp_id=AXSEMANTICS_CONTENT_PROJECT,
             )
             thing.create()
-            click.echo('.', end='')
+            click.echo('.', nl=False)
         except KeyError as e:
             click.echo('Could not create thing for data {}, missing key {}.'.format(pure_data, e))
         except axsemantics.APIError as e:
