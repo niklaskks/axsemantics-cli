@@ -8,9 +8,9 @@ from .common.transfer import download_with_progressbar, upload_with_progressbar
 
 
 @click.group()
-@click.option('--login', '-l', help='login email', prompt=True)
+@click.option('--login', '-l', help='login email', prompt=True, envvar='AXSEMANTICS_LOGIN')
 @click.option('--password', '-p', help='login password',
-              prompt=True, hide_input=True)
+              prompt=True, hide_input=True, envvar='AXSEMANTICS_PASSWORD')
 @click.pass_context
 def cli(ctx, login, password):
     ctx.obj = {}
