@@ -46,3 +46,6 @@ def upload(data, url, filename):
 
 from .content_project import content_project
 cli.add_command(content_project)
+
+from .training import training
+cli.add_command(training)

@@ -2,7 +2,8 @@ import click
 import json
 
 import axsemantics
-from axsemantics_cli.common.formatter import heading
+
+from .common.formatter import pretty_print_object
 
 
 @click.group('content-project')
@@ -49,7 +50,7 @@ def cp_get(obj, id):
     try:
         cp = axsemantics.ContentProject.retrieve(id)
     except:
-        click.echo('Content Project {} not found or not readable to your user'.format(id))
+        click.echo('Content Project {} not found or not readable by your user'.format(id))
     else:
         obj['content-project-id'] = id
         obj['content-project'] = cp
@@ -63,11 +64,8 @@ def cp_get_show(obj):
     """
     if 'content-project' in obj:
         cp = obj['content-project']
-        heading('Content Project')
-        for key, value in cp.items():
-            print('{}: {}'.format(key, value))
+        pretty_print_object(cp, 'Content Project')
 
-        #print(''.fomat(cp['id'], cp['name'])
 
 @cp_get.group('things')
 @click.pass_obj
