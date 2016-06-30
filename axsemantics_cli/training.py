@@ -66,7 +66,7 @@ def trainings_get_show(obj):
         pretty_print_object(training, 'Training')
 
 
-@trainings_get.command()
+@trainings_get.command('promoted')
 @click.argument('output', type=click.File('wb'))
 @click.pass_obj
 def download_promoted(obj, output):
