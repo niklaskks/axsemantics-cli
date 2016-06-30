@@ -60,7 +60,7 @@ def cp_get(obj, id):
 @click.pass_obj
 def cp_get_show(obj):
     """
-    shows verbose info about a content project
+    show details about the Content Project
     """
     if 'content-project' in obj:
         cp = obj['content-project']
@@ -71,7 +71,7 @@ def cp_get_show(obj):
 @click.pass_obj
 def cp_get_things(obj):
     """
-    get the list of things belonging to this content project
+    get the list of Things belonging to this Content Project
     """
     if 'content-project' in obj:
         cp = obj['content-project']
@@ -83,6 +83,9 @@ def cp_get_things(obj):
 @cp_get_things.command('list')
 @click.pass_obj
 def things_list(obj):
+    """
+    list all Things belonging to this Content Project
+    """
     if 'things' in obj:
         things = obj['things']
         for thing in things:
@@ -93,6 +96,9 @@ def things_list(obj):
 @click.argument('id')
 @click.pass_obj
 def things_show(obj, id):
+    """
+    show details about a Thing
+    """
     if 'content-project-id' in obj:
         thing = axsemantics.Thing.retrieve(id=id, cp_id=obj['content-project-id'])
         print(thing)
