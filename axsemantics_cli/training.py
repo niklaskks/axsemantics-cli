@@ -1,4 +1,5 @@
 import click
+import json
 
 import axsemantics
 
@@ -18,6 +19,14 @@ def training(obj):
 def trainings_list(obj):
     for training in axsemantics.TrainingList():
         print('{}: {}'.format(training['id'], training['name']))
+
+
+@training.command('import')
+@click.argument('input', type=click.File('rb'))
+@click.pass_obj
+def training_import_new(obj, input):
+    data = json.loads(input.read().decode('utf-8'))
+    axsemantics.Training.import_atml3(data)
 
 
 @training.group('get')
@@ -41,8 +50,22 @@ def trainings_get_show(obj):
         pretty_print_object(training, 'Training')
 
 
-@training.command()
+@trainings_get.command()
+@click.argument('output', type=click.File('wb'))
 @click.pass_obj
-def download_promoted(obj):
+def download_promoted(obj, output):
     if 'training' in obj:
-        pass
+        training = obj['training']
+        click.echo('downloading promoted atml for training {} into file {}'.format(obj['training-id'], output.name))
+        data = json.dumps(training.promoted)
+        output.write(data.encode('utf-8'))
+
+
+@trainings_get.command('import')
+@click.argument('input', type=click.File('rb'))
+@click.pass_obj
+def upload_training(obj, input):
+    if 'training' in obj:
+        training = obj['training']
+        data = json.loads(input.read().decode('utf-8'))
+        training.update_atml3(data)
