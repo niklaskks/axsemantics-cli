@@ -66,19 +66,35 @@ def trainings_get_show(obj):
         pretty_print_object(training, 'Training')
 
 
-@trainings_get.command('promoted')
+# @trainings_get.command('promoted')
+# @click.argument('output', type=click.File('wb'))
+# @click.pass_obj
+# def download_promoted(obj, output):
+#     """
+#     download the promoted Training.
+#     Note that this is different from exported Training (missing endpoint)
+#     """
+#     if 'training' in obj:
+#         training = obj['training']
+#         click.echo('downloading promoted atml for training {} into file {}'.format(obj['training-id'], output.name))
+#         data = json.dumps(training.promoted)
+#         output.write(data.encode('utf-8'))
+
+
+@trainings_get.command('export')
 @click.argument('output', type=click.File('wb'))
 @click.pass_obj
-def download_promoted(obj, output):
+def download_training(obj, output):
     """
-    download the promoted Training.
-    Note that this is different from exported Training (missing endpoint)
+    download the Training
     """
     if 'training' in obj:
         training = obj['training']
-        click.echo('downloading promoted atml for training {} into file {}'.format(obj['training-id'], output.name))
-        data = json.dumps(training.promoted)
-        output.write(data.encode('utf-8'))
+        click.echo('triggering export... ', nl=False)
+        data = training.export_atml3()
+        click.echo('Done.')
+        click.echo('writing to {}'.format(output.name))
+        output.write(json.dumps(data).encode('utf-8'))
 
 
 @trainings_get.command('import')
