@@ -3,6 +3,9 @@ from collections import OrderedDict, defaultdict
 import json
 import os
 
+from .common.formatter import sort_atml3
+
+
 @click.group()
 @click.argument('input', type=click.File('r'))
 @click.pass_obj
@@ -73,9 +76,9 @@ def process_commands(processors, path):
             click.echo(item['filename'])
             yield item
 
-    iterator = echo_name(atml3file_iter(path))
+    iterator = atml3file_iter(path)
+    # iterator = echo_name(iterator)
     for processor in processors:
-        print(processor)
         iterator = processor(iterator)
     for item in iterator:
         pass
@@ -131,4 +134,25 @@ def atml3_reindent():
                 with open(filename, 'w') as f:
                     json.dump(atml3, f, indent=4)
             yield item
+    return processor
+
+@atml3file.command('showkey')
+@click.argument('key')
+def atml3_print_keyvalue(key):
+    def processor(iterator):
+        for item in iterator:
+            if key in item['atml3']:
+                click.echo('{} {}: "{}"'.format(item['filename'], key, item['atml3'][key]))
+            yield item
+
+    return processor
+
+@atml3file.command('sort')
+def atml3_sort():
+    def processor(iterator):
+        for item in iterator:
+            if item['atml3']:
+                print(json.dumps(sort_atml3(item['atml3']), indent=4))
+            yield item
+
     return processor
