@@ -141,7 +141,7 @@ def atml3_reindent():
                 atml3 = item['atml3']
                 click.echo('writing reindented file to {}'.format(filename))
                 with open(filename, 'w') as f:
-                    json.dump(atml3, f, indent=4)
+                    json.dump(atml3, f, indent=2)
             yield item
     return processor
 
@@ -161,7 +161,7 @@ def atml3_sort():
     def processor(iterator):
         for item in iterator:
             if item['atml3']:
-                print(json.dumps(sort_atml3(item['atml3']), indent=4))
+                print(json.dumps(sort_atml3(item['atml3']), indent=2))
             yield item
 
     return processor
