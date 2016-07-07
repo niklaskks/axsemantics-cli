@@ -34,5 +34,6 @@ setup(
     entry_points='''
         [console_scripts]
         axsemantics=axsemantics_cli.main:cli
+        axsemantics-atml=axsemantics_cli.analyze:atml3file
     ''',
 )

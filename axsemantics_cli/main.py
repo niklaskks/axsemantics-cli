@@ -26,3 +26,6 @@ cli.add_command(content_project)
 
 from .training import training
 cli.add_command(training)
+
+# from .analyze import analyze
+# cli.add_command(analyze)
