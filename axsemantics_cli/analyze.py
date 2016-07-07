@@ -2,6 +2,12 @@ import click
 from collections import OrderedDict, defaultdict
 import json
 import os
+import sys
+
+if sys.version_info[0] == 3 and sys.version_info[1] == 5:
+    from math import gcd
+else:
+    from fractions import gcd
 
 from .common.formatter import sort_atml3
 
@@ -52,11 +58,13 @@ def atml3file_iter(path):
                 fname = os.path.join(root, name)
                 try:
                     with open(fname, 'r') as f:
-                        fcontents = json.load(f, encoding='utf-8',
+                        fcontents = f.read()
+                        atml3 = json.loads(fcontents, encoding='utf-8',
                                               object_hook=OrderedDict,
                                               object_pairs_hook=OrderedDict)
                         item = {
-                            'atml3': fcontents,
+                            'fcontents': fcontents,
+                            'atml3': atml3,
                             'filename': fname,
                         }
                         yield item
@@ -64,6 +72,7 @@ def atml3file_iter(path):
                     item = {
                         'filename': fname,
                         'atml3': {},
+                        'fcontents': '',
                         'error': str(e),
                     }
                     yield item
@@ -153,6 +162,37 @@ def atml3_sort():
         for item in iterator:
             if item['atml3']:
                 print(json.dumps(sort_atml3(item['atml3']), indent=4))
+            yield item
+
+    return processor
+
+
+@atml3file.command('guess-indentation')
+def atml3_guess_indentation():
+    def processor(iterator):
+        for item in iterator:
+            if item['fcontents']:
+                tabdivisor = 0
+                spacedivisor = 0
+                for line in item['fcontents'].split('\n'):
+                    tabs = 0
+                    spaces = 0
+                    for letter in line:
+                        if letter == ' ':
+                            spaces += 1
+                        elif letter == '\t':
+                            tabs += 1
+                        else:
+                            break
+                    tabdivisor = gcd(tabdivisor, tabs)
+                    spacedivisor = gcd(spacedivisor, spaces)
+                    # click.echo('{} tabs {} spaces'.format(tabs, spaces))
+                if spacedivisor > 0:
+                    click.echo('{}: {} spaces'.format(item['filename'], spacedivisor))
+                elif tabdivisor > 0:
+                    click.echo('{}: {} tabs'.format(item['filename'], tabdivisor))
+
+
             yield item
 
     return processor
