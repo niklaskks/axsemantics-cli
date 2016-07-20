@@ -93,7 +93,7 @@ def download_training(obj, output):
         data = training.export_atml3()
         click.echo('Done.')
         click.echo('writing to {}'.format(output.name))
-        output.write(json.dumps(data, sort_keys=True, indent=4).encode('utf-8'))
+        output.write(data)
 
 
 @trainings_get.command('import')

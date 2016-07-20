@@ -112,7 +112,7 @@ def new_importer(obj, filename, content_project):
     with open(filename, 'w') as f:
         f.write(data)
     make_executable(filename)
-    click.echo('Successfully created new script {}'.format(filename)))
+    click.echo('Successfully created new script {}'.format(filename))
     click.echo('you most likely want to edit the script first,')
     click.echo('especially the MAPPING setting needs to be adjusted to each importer')
     click.echo('you can use the parameter -p to test if your mapping expression works, -p will never insert data.\n')
