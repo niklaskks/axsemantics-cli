@@ -18,14 +18,11 @@ def cli(ctx, login, password):
     axsemantics.login(login, password)
 
 
-# from .excel_upload import excel
-# cli.add_command(excel)
-
 from .content_project import content_project
 cli.add_command(content_project)
 
 from .training import training
 cli.add_command(training)
 
-# from .analyze import analyze
-# cli.add_command(analyze)
+from .data_importer import new_importer
+cli.add_command(new_importer)

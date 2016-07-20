@@ -3,12 +3,11 @@ import json
 
 import axsemantics
 
-from .main import cli
 from .common.transfer import download_with_progressbar, upload_with_progressbar
 from .common.formatter import pretty_print_object
 
 
-@cli.group()
+@click.group()
 @click.pass_obj
 def training(obj):
     """
