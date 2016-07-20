@@ -25,6 +25,8 @@ setup(
     ],
 
     packages = ['axsemantics_cli', 'axsemantics_cli.common'],
+    package_data = {'axsemantics_cli': ['importer.out']},
+    include_package_data = True,
 
     install_requires = [
         'axsemantics',
