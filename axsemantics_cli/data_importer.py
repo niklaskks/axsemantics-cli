@@ -33,13 +33,6 @@ def is_zipfile(filename):
         print(header == b'PK')
 
 
-def normalize_key(key):
-    pattern = re.compile('[^A-Za-z0-9_]')
-    key = key.strip()
-    key = pattern.sub('', key)
-    return key
-
-
 def _map_field(data, key, value):
     # fixes datetime.datetime is not json serializable
     if isinstance(value, datetime.datetime):

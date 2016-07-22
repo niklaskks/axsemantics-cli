@@ -1,5 +1,12 @@
 # mapping helper functions
-from .data_importer import normalize_key
+
+
+def normalize_key(key):
+    pattern = re.compile('[^A-Za-z0-9_]')
+    key = key.strip()
+    key = pattern.sub('', key)
+    return key
+
 
 def splitdata(field, key, row_separator, value_separator):
     """
