@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name = 'axsemantics-cli',
-    version = '0.1.2-rc5',
+    version = '0.1.2-rc6',
 
     description = 'AXSemantics API client Commandline Interface',
 
