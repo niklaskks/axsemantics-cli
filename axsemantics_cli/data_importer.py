@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import click
+from collections.abc import Mapping, Sequence
 import json
 import os
 from os.path import dirname
