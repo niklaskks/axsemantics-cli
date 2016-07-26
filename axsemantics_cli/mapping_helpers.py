@@ -1,4 +1,5 @@
 # mapping helper functions
+import re
 
 
 def normalize_key(key):

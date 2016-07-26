@@ -31,8 +31,6 @@ SETTINGS = ImporterSettings
 def is_zipfile(filename):
     with open(filename, 'rb') as f:
         header = f.read(2)
-        print(header)
-        print(header == b'PK')
 
 
 def _map_field(data, key, value):
@@ -198,8 +196,9 @@ def importer(ctx, filename, pretend):
                 pure_data=pure_data,
                 cp_id=SETTINGS.AXSEMANTICS_CONTENT_PROJECT,
             )
-            thing.create()
+            thing.create(api_token=SETTINGS.AXSEMANTICS_TOKEN)
             print('.', end='')
+            sys.stdout.flush()
         except KeyError as e:
             print('Could not create thing for data {}, missing key {}.'.format(pure_data, e))
         except axsemantics.APIError as e:
